@@ -1,16 +1,8 @@
 
 ---
+#Creating the vpc. Here we are using variables in vars.yml file
 
-# roles/vpc/tasks/main.yml
-
-
-# First task : creating the VPC.
-# We are using the variables set in the vars.yml file.
-# The module gives us back its result,
-# which contains information about our new VPC. 
-# We register it in the variable my_vpc.
-
-- name:               Create VPC
+- name:               VPC creation
   ec2_vpc_net:
     name:             "{{ vpc_name }}"
     cidr_block:       "{{ vpc_cidr_block }}"
@@ -25,12 +17,10 @@
     vpc_id:           "{{ my_vpc.vpc.id }}"
 
 
-# Now let's create the subnets.
-# One public, one private.
-# Both subnets are located in the same AZ.
-# Again, we save their ids in variables.
+#In our topology we create two subnets, one being private and one being public. We retain the IDs of created subnets
+#in variables.
 
-- name:               Create Public Subnet
+- name:               Public subnet creation
   ec2_vpc_subnet:
     state:            "present"
     vpc_id:           "{{ vpc_id }}"
@@ -47,7 +37,7 @@
   set_fact:
     public_subnet_id: "{{ my_public_subnet.subnet.id }}"
 
-- name:               Create Private Subnet
+- name:               Private subnet creation
   ec2_vpc_subnet:
     state:            "present"
     vpc_id:           "{{ vpc_id }}"
@@ -65,10 +55,9 @@
     private_subnet_id: "{{ my_private_subnet.subnet.id }}"
 
 
-# Every VPC needs at least one Internet Gateway.
-# This component allows traffic between the VPC and the outside world.
+#Implementation of internet gateway so that our VPC has access to internet and vice versa.
 
-- name:               Create Internet Gateway for VPC
+- name:               Internet gateway creation
   ec2_vpc_igw:
     vpc_id:           "{{ vpc_id }}"
     region:           "{{ aws_region }}"
@@ -81,12 +70,9 @@
   set_fact:
     igw_id:           "{{ my_vpc_igw.gateway_id }}"
 
-
-# Now we create an AWS Elastic IP.
-# This is the IP address we will attach to the NAT Gatway.
-# From that moment, we will own that IP address.
-# That means if later we want to use a different service for NAT,
-# we will be able to use that IP. Pretty useful. 
+#Elastic IP is owned and also allows us flexibility to use it later for a different service.
+#Here we are creating an elastic IP for NAT gateway( which provides private subnets internet access)
+#you can also use NAT gateway module in ansible instead of implementing it this way.
 
 - name: Setup AWS CLI (1/3)
   shell: >
@@ -111,12 +97,7 @@
   set_fact:
     my_elastic_ip: "{{ eip.stdout }}"
 
-
-# Time to create the NAT Gateway.
-# As you can see, we attach a NAT Gateway to a public subnet.
-# This is where the service will be located.
-
-- name: Create NAT Gateway
+- name: NAT gateway creation
   shell: >
     aws ec2 create-nat-gateway \
     --subnet-id {{ public_subnet_id }} \
@@ -128,26 +109,16 @@
   set_fact:
     nat_gateway_id: "{{ my_nat_gateway.stdout }}"
 
-
-# We pause a few seconds for the NAT Gateway to be ready.
-
 - pause: seconds=5
 
 
-# Now we set up the Route Tables.
-# We will have one RT for the public subnet,
-# and one for the private subnet.
-# You can see that the Route Table for the private subnet
-# will redirect default destinations to the NAT Gateway
-# and the Route Table for the public subnet will use the
-# Internet Gateway.
-# 
-# We don't see it here, but the Route Tables will also contain 
-# a route for resources inside the VPC, so that if we need 
-# to reach an internal resource, we don't go to the Internet
-# Gateway or the NAT Gateway.
+#Following subnet configures routing tables. (two in this case, one for public and one for private)
+#For public subnet, route tables redirect default destinations to Internet gateway,
+# whereas for private one, routing redirects same to NAT instance.
+#in order to connect to resources inside vpc without routing to nat gateway or internet gateway,
+#there is also a route for internal resources of vpc.
 
-- name: Set up public subnet route table
+- name: Public route table creation
   ec2_vpc_route_table:
     vpc_id: "{{ vpc_id }}"
     region: "{{ aws_region }}"
@@ -161,7 +132,7 @@
       - dest: "0.0.0.0/0"
         gateway_id: "{{ igw_id }}"
 
-- name: Set up private subnet route table
+- name: Private route table creation
   ec2_vpc_route_table:
     vpc_id: "{{ vpc_id }}"
     region: "{{ aws_region }}"
@@ -175,10 +146,7 @@
       - dest: "0.0.0.0/0"
         gateway_id: "{{ nat_gateway_id }}"
 
-
-# Finally, let's create the Security Groups.
-# We will create two : one to attach to public instances,
-# and one to attach to private instances.
+#Further security constraints via port and IP restrictions in security groups.
 
 - name: Create Main Security Group
   ec2_group:
@@ -192,7 +160,7 @@
       - proto: "tcp"
         from_port: "22"
         to_port: "22"
-        cidr_ip: "{{ my_ip }}/32"
+        cidr_ip: "{{ my_ip }}/32"  #change this depending on your use case, it can be a group of IP's too and are flexible to be modified later also.
   register: my_main_sg
 
 - name: Set Main SG ID
