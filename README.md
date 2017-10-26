@@ -5,7 +5,7 @@ The project contains Ansible playbook to automate creation of AWS VPC infrastruc
 ## Getting Started
 Clone the repository to your local machine:
 ```
-git@github.com:sapmlreseach/AWS_AnsiblePlaybook_MLResearch.git
+git clone git@github.com:sapmlreseach/AWS_AnsiblePlaybook_MLResearch.git
 ```
 ### Prerequisites
 Since it is an ansible script and uses awscli in order to set up components of VPC such as NAT gateway, you need to install following to your local machine:
