@@ -36,7 +36,9 @@ ansible-playbook playbook.yml –i inventory –e @vars.yml
 
 ## Acknowledgments
 https://blog.scottlowe.org/2015/11/21/using-ssh-bastion-host/
+
 https://blog.scottlowe.org/2017/05/26/bastion-hosts-custom-ssh-configs/
+
 http://tenmilesquare.com/using-ssh-through-a-bastion-host-transparently/
 
 
