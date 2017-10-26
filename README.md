@@ -3,8 +3,10 @@
 The project contains Ansible playbook to automate creation of AWS VPC infrastructure in order to develop machine learning solutions while ensuring data privacy.
 
 ## Getting Started
-Clone the repository to your local machine
-
+Clone the repository to your local machine:
+```
+git@github.com:sapmlreseach/AWS_AnsiblePlaybook_MLResearch.git
+```
 ### Prerequisites
 Since it is an ansible script and uses awscli in order to set up components of VPC such as NAT gateway, you need to install following to your local machine:
 
