@@ -19,6 +19,7 @@ pip install awscli
 ### Configuring the playbook
 
 1.Update the vars.yml file and change variable accordingly, depending on the use case of your organization.
+
 2.Since ansible uses python interpreter, provide the right path to your python interpreter in local machine inside inventory file.
 
 
