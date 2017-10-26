@@ -24,7 +24,7 @@ pip install awscli
 
 
 
-## Running the tests
+## Running the playbook
 
 Switch to the directory where you cloned the repository and then enter the command:
 
