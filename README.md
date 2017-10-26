@@ -2,7 +2,7 @@
 
 <snippet>
   <content><![CDATA[
-# ${1:Automating creation of Virtual Private Cloud in Amazon Web Services}
+##${1:Automating creation of Virtual Private Cloud in Amazon Web Services}
 Virtual Private Cloud allows organisations to define their own virtual network, with customized security protocols and 
 access control. SAP ML Research team worked on creating ansible scripts that enable you to create an infrastructure in which you can 
 develop machine learning solutions, along with ensuring data privacy.
