@@ -41,4 +41,4 @@ https://blog.scottlowe.org/2017/05/26/bastion-hosts-custom-ssh-configs/
 
 http://tenmilesquare.com/using-ssh-through-a-bastion-host-transparently/
 
-
+https://aws.amazon.com/vpc/
