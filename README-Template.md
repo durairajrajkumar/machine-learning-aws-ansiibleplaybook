@@ -1,88 +1,42 @@
 # Project Title
 
-One Paragraph of project description goes here
+The project contains Ansible playbook to automate creation of AWS VPC infrastructure in order to develop machine learning solutions while ensure data privacy.
 
 ## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Clone the repository to your local machine
 
 ### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you have to get a development env running
-
-Say what the step will be
+Since it is an ansible script and uses awscli in order to set up components of VPC such as NAT gateway, you need to install following to your local machine:
 
 ```
-Give the example
+pip install ansible
+pip install boto
+pip install awscli
 ```
 
-And repeat
+### Configuring the playbook
 
-```
-until finished
-```
+1.Update the vars.yml file and change variable accordingly, depending on the use case of your organization.
+2.Since ansible uses python interpreter, provide the right path to your python interpreter in local machine inside inventory file.
 
-End with an example of getting some data out of the system or using it for a little demo
+
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+Switch to the directory where you cloned the repository and then enter the command:
 
 ```
-Give an example
+ansible-playbook playbook.yml –i inventory –e @vars.yml
 ```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Ansible](http://docs.ansible.com/ansible/latest/guide_aws.html) - Ansible automation tool
+* [AWSCLI](https://aws.amazon.com/cli/) - Amazon Web Services command line interface
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
+https://blog.scottlowe.org/2015/11/21/using-ssh-bastion-host/
+https://blog.scottlowe.org/2017/05/26/bastion-hosts-custom-ssh-configs/
+http://tenmilesquare.com/using-ssh-through-a-bastion-host-transparently/
 
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
 
