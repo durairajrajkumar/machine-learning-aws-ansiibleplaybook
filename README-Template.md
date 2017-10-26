@@ -1,6 +1,6 @@
 # Project Title
 
-The project contains Ansible playbook to automate creation of AWS VPC infrastructure in order to develop machine learning solutions while ensure data privacy.
+The project contains Ansible playbook to automate creation of AWS VPC infrastructure in order to develop machine learning solutions while ensuring data privacy.
 
 ## Getting Started
 Clone the repository to your local machine
