@@ -11,9 +11,7 @@ git clone git@github.com:sapmlreseach/AWS_AnsiblePlaybook_MLResearch.git
 Since it is an ansible script and uses awscli in order to set up components of VPC such as NAT gateway, you need to install following to your local machine:
 
 ```
-pip install ansible
-pip install boto
-pip install awscli
+pip install -r requirements.txt
 ```
 
 ### Configuring the playbook
