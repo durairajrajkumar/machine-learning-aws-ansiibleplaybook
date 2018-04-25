@@ -29,7 +29,7 @@ pip install awscli
 Switch to the directory where you cloned the repository and then enter the command:
 
 ```
-ansible-playbook playbook.yml –i inventory –e @vars.yml
+ansible-playbook playbook.yml –e @vars.yml
 ```
 ## Built With
 
